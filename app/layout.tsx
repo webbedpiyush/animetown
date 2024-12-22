@@ -1,15 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/navbar/site-header";
 import "./globals.css";
+import { Footer } from "@/components/footer";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+export const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
@@ -37,6 +43,7 @@ export default function RootLayout({
           <div className="relative flex min-h-screen flex-col">
             <div className="flex-1">{children}</div>
           </div>
+          <Footer />
           <TailwindIndicator />
         </ThemeProvider>
       </body>
