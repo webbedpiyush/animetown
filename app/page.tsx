@@ -18,17 +18,22 @@ export default async function Page() {
               <span className="animate-shine rounded-full border bg-[linear-gradient(110deg,#ffffff,45%,#f1f1f1,55%,#ffffff)] bg-[length:200%_100%] px-2 py-[1px] text-[10px] text-foreground dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] dark:text-white">
                 Welcome to the town of enjoyment!
               </span>
+              
             </a>
+
+            <div className="relative ">
             <h1 className="text-6xl font-bold">
               Explore movies, tv series, and animes!
             </h1>
-            <p className="text-sm leading-6 text-muted-foreground">
+            <img src="/paint-brush.svg" className="absolute xl:w-auto w-[80%] translate-y-[40%] md:top-[-32px] right-[10%] -z-10" />
+            <p className="text-sm leading-6 text-muted-foreground z-10">
               EnjoyTown is a streaming platform for lazy people who like to
               <br />
               watch millions of movies, series and animes for free. Go down to
               watch
             </p>
-            <div className="flex gap-2">
+            </div>
+            <div className="flex gap-2 z-10">
               <Link href={`/changelog`}>
                 <Button variant="outline">Changelog</Button>
               </Link>
