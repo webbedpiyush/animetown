@@ -1,4 +1,4 @@
-import DetailsContainer from "@/components/containers/details";
+import DetailsContainer from "@/components/containers/anime/details";
 import Gogoanime from "@consumet/extensions/dist/providers/anime/gogoanime";
 import Anilist from "@consumet/extensions/dist/providers/meta/anilist";
 
