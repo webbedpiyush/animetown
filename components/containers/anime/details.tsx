@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { IAnimeInfo } from "@consumet/extensions/dist/models";
 
 const DetailsContainer: React.FC<{ data: IAnimeInfo }> = ({ data }) => {
+  console.log(data.id)
   const date = new Date(
     `${data.startDate?.year}-${data.startDate?.month}-${data.startDate?.day}`
   );

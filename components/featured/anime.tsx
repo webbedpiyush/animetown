@@ -29,7 +29,7 @@ export default function FeaturedAnime({ featureType }: AnimeFeatureProps) {
       let res;
       switch (featureType) {
         case "recent":
-          res = await anilist.fetchRecentEpisodes();
+          res = await anilist.fetchRecentEpisodes(1,20);
           break;
         case "popular":
           res = await anilist.fetchPopularAnime(1, 20);

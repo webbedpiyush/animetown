@@ -7,15 +7,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function Watch({ id }: any) {
+  console.log(id)
   const anilist = new Anilist(new Gogoanime());
   const data = await anilist.fetchEpisodesListById(id);
+  console.log(data);
 
   return (
     <ScrollArea className="h-[40rem] rounded-md border">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {data.map((episode) => (
-          <Link key={episode.id} href={`/anime/watch/${id}/${episode.id}`}
-          className="relative flex flex-col rounded p-4">
+          <Link
+            key={episode.id}
+            href={`/anime/watch/${id}/${episode.id}/${episode.number}`}
+            className="relative flex flex-col rounded p-4"
+          >
             <div className="relative mb-4 h-40 w-full overflow-hidden rounded-xl">
               {episode.image ? (
                 <Image
@@ -32,7 +37,7 @@ export default async function Watch({ id }: any) {
               )}
               <div className="absolute inset-0 z-50 flex items-center justify-center">
                 <Button variant={"ghost"} className="h-12 w-12">
-                  <Play className="h-6 w-6 text-white"/>
+                  <Play className="h-6 w-6 text-white" />
                 </Button>
               </div>
             </div>

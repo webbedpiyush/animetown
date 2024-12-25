@@ -47,6 +47,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "artworks.thetvdb.com",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.myanimelist.net",
+      }
     ],
   },
   experimental: {
@@ -57,6 +61,7 @@ const nextConfig = {
   env: {
     TMDB_API_KEY: process.env.TMDB_API_KEY,
     CONSUMET_API_URL: process.env.CONSUMET_API_URL,
+    BASE_URL:process.env.BASE_URL
   },
   async rewrites() {
     return [
