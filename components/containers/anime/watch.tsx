@@ -6,25 +6,31 @@ import { ImageIcon, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Watch({ id }: any) {
-  console.log(id)
+export default async function Watch({ id ,anilistId}: any) {
+  console.log(id, anilistId);
+  const response = await fetch(`http://localhost:3000/api/Watch`, {
+    method: "POST",
+    body: JSON.stringify({ id: id }),
+  });
+  const data = await response.json();
+  console.log(data.data.episodes);
   const anilist = new Anilist(new Gogoanime());
-  const data = await anilist.fetchEpisodesListById(id);
-  console.log(data);
+  const data1 = await anilist.fetchEpisodesListById(anilistId);
+  const image = (data1[data1.length - 1].image);
 
   return (
     <ScrollArea className="h-[40rem] rounded-md border">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {data.map((episode) => (
+        {data.data.episodes?.map((episode) => (
           <Link
-            key={episode.id}
-            href={`/anime/watch/${id}/${episode.id}/${episode.number}`}
+            key={episode.episodeId}
+            href={`/anime/watch/${id}/${episode.episodeId}`}
             className="relative flex flex-col rounded p-4"
           >
             <div className="relative mb-4 h-40 w-full overflow-hidden rounded-xl">
-              {episode.image ? (
+              {image ? (
                 <Image
-                  src={episode.image}
+                  src={image!}
                   alt={
                     episode.title ? episode.title : `Episode ${episode.number}`
                   }
@@ -51,5 +57,6 @@ export default async function Watch({ id }: any) {
         ))}
       </div>
     </ScrollArea>
+    // <div>episode</div>
   );
 }

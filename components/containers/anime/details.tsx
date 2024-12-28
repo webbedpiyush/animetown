@@ -17,8 +17,11 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { IAnimeInfo } from "@consumet/extensions/dist/models";
 
-const DetailsContainer: React.FC<{ data: IAnimeInfo }> = ({ data }) => {
-  console.log(data.id)
+const DetailsContainer: React.FC<{ data: IAnimeInfo; anime: any }> = ({
+  data,
+  anime,
+}) => {
+  console.log(data);
   const date = new Date(
     `${data.startDate?.year}-${data.startDate?.month}-${data.startDate?.day}`
   );
@@ -80,10 +83,10 @@ const DetailsContainer: React.FC<{ data: IAnimeInfo }> = ({ data }) => {
                 <h1 className="text-lg font-bold md:text-4xl">
                   {typeof data.title === "string"
                     ? data.title
-                    : data.title.english ||
-                      data.title.userPreferred ||
-                      data.title.romaji ||
-                      data.title.native ||
+                    : data.title?.english ||
+                      data.title?.userPreferred ||
+                      data.title?.romaji ||
+                      data.title?.native ||
                       ""}
                 </h1>
 
@@ -139,7 +142,11 @@ const DetailsContainer: React.FC<{ data: IAnimeInfo }> = ({ data }) => {
                 </TabsList>
               </div>
               <TabsContent value="watch" className="mt-4">
-                <Watch id={data.id} />
+                <Watch
+                  id={anime.data.anime.info.id}
+                  anilistId={anime.data.anime.info.anilistId}
+                />
+                {/* <div>{anime.data.anime.info.id}</div> */}
               </TabsContent>
 
               <TabsContent value="characters" className="mt-4">
