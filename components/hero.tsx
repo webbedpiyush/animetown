@@ -1,7 +1,4 @@
 "use client";
-import { IAnimeResult } from "@consumet/extensions/dist/models/types";
-import Gogoanime from "@consumet/extensions/dist/providers/anime/gogoanime";
-import Anilist from "@consumet/extensions/dist/providers/meta/anilist";
 import { Movie, tmdb, TvSerie } from "@/lib/tmdb";
 import { ListResponse } from "@/lib/tmdb/utils/list-response";
 import React, { useEffect, useMemo, useState } from "react";
@@ -17,27 +14,31 @@ export default function Hero() {
   const [tvData, setTvData] = useState<ListResponse<TvSerie> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [anime, setAnime] = useState<any[] | null>(null);
 
-  const [anime, setAnime] = useState<IAnimeResult[] | null>(null);
-
-  const anilist = useMemo(() => new Anilist(new Gogoanime()), []);
+  let data: {
+    [x: string]: any; topAiringAnimes: React.SetStateAction<any[] | null> 
+};
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        const response = await fetch(`/api/HomePage`, {
+          method: "GET",
+        });
+        data = await response.json();
+        console.log(data);
+        setAnime(data.data.spotlightAnimes);
+        console.log(data.data.spotlightAnime)
         const [movie, tvs] = await Promise.all([
           tmdb.movies.popular("en-US"),
           tmdb.tv.popular("en-US"),
         ]);
         setTvData(tvs);
-        console.log(movie);
+        // console.log(movie);
         setMovieData(movie);
         setError(null);
-
-        const res = await anilist.fetchTrendingAnime(1, 20);
-        console.log(res.results);
-        setAnime(res.results);
       } catch (err: any) {
         setError(err.message || "An unexpected error occurred");
       } finally {
@@ -64,7 +65,7 @@ export default function Hero() {
           </div>
         )}
 
-        {anime && movieData && tvData && (
+        { anime && movieData && tvData && (
           <>
             <Marquee pauseOnHover className="max-w-screen [--duration:40s]">
               {movieData?.results.slice(0, 10).map((movie) => (
@@ -72,9 +73,8 @@ export default function Hero() {
               ))}
             </Marquee>
             <Marquee pauseOnHover className="max-w-screen [--duration:40s]">
-              {anime &&
+              {anime && 
                 anime
-                  ?.slice(0, 20)
                   .map((anime) => (
                     <AnimeCard
                       key={anime.id}
@@ -150,19 +150,20 @@ export function Card({ item }: CardProps) {
   );
 }
 
-export function AnimeCard({ anime }: IAnimeResult) {
+export function AnimeCard({ anime }: any) {
+  console.log(anime);
   return (
     <Link
       href={`/anime/${anime?.id}`}
       className="group relative flex max-w-xs cursor-pointer flex-col gap-2 overflow-hidden md:max-w-sm"
     >
       <div className="relative aspect-video flex w-full animes-center justify-center overflow-hidden rounded-md border bg-background/50 shadow">
-        {anime?.image ? (
+        {anime?.poster ? (
           <Image
             fill
             className="rounded-xl object-cover"
-            src={anime.image}
-            alt={anime.title?.english}
+            src={anime.poster}
+            alt={anime.name}
             sizes="100%"
           />
         ) : (
@@ -171,9 +172,9 @@ export function AnimeCard({ anime }: IAnimeResult) {
       </div>
       <div className="space-y-1.5">
         <div className="flex animes-start justify-between gap-1">
-          <span className="text-sm font-semibold">{anime?.title?.english}</span>
-          <Badge variant="outline">
-            {anime?.rating / 10 ? (anime?.rating.toFixed(1))/10 : "?"}
+          <span className="text-sm font-semibold">{anime?.name}</span>
+          <Badge variant="outline" className="">
+            {anime?.type}
           </Badge>
         </div>
         <p className="line-clamp-3 text-xs text-muted-foreground">

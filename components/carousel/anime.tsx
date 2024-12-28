@@ -4,8 +4,13 @@ import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import CarouselCard from "./card";
 
 export default async function AnimeCarousel() {
-  const anilist = new Anilist(new Gogoanime());
-  const data = await anilist.fetchPopularAnime(1, 20);
+  const response = await fetch(`http://localhost:3000/api/HomePage`, {
+    method: "GET",
+  });
+  const data = await response.json();
+  const results = data.data.top10Animes.today;
+  console.log(results);
+  
 
   if (!data) {
     return <div>None Found</div>;
@@ -15,9 +20,9 @@ export default async function AnimeCarousel() {
     <>
       <Carousel className="mb-10">
         <CarouselContent className="mx-auto flex w-full">
-          {data.results?.map((el: any) => (
+          {results.map((el: any) => (
             <CarouselItem key={el.id}>
-              <CarouselCard show={el} />
+              <CarouselCard  anime={el}/>
             </CarouselItem>
           ))}
         </CarouselContent>
